@@ -23,13 +23,8 @@ module.exports = function(app, appConfig, customDebug) {
   };
 
   var defaultConfig = _.extend(_.cloneDeep(config), appConfig);
-
-  // TODO - look for a cleaner way to do this inside the nodules
-  //        change name from module to nodule in all files
-  app.initModule = initModule;
   
   return {
-    seedNodules: seedNodules,
     loadNodules: loadNodules,
     registerRoutes: registerRoutes
   };
@@ -38,13 +33,14 @@ module.exports = function(app, appConfig, customDebug) {
     var root = dir || process.cwd(); // TOOD - should this be process.cwd() + '/app' ?
     glob.sync('./**/*.js', { cwd: root })
       .filter(doesntMatch.apply(this, exclude))
-      .forEach(function(nodule) { require(path.join(root, nodule))(app); });
-  }
+      .forEach(function(file) { initNodule(path.join(root, file)); });
+  } 
 
-  function initModule(file, config) {
+  function initNodule(filepath) {
+    var config = require(filepath)(app);
     var seedNodule = _.extend(_.cloneDeep(defaultConfig), config); // merge config properties onto default config
-    seedNodule.path = path.dirname(file);
-    seedNodule.name = path.basename(file, '.js');
+    seedNodule.path = path.dirname(filepath);
+    seedNodule.name = path.basename(filepath, '.js');
 
     // nodules can have multiple routes
     var routeArray = (typeof seedNodule.route === 'string') || (seedNodule.route instanceof RegExp) ? [seedNodule.route] : seedNodule.route;
@@ -87,4 +83,3 @@ function doesntMatch() {
     return matches;
   };
 }
-
