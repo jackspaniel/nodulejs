@@ -59,10 +59,6 @@ module.exports = function(app, appConfig, customDebug) {
 
   // register routes in order based on nodule.routeIndex (default 0, can be negative)
   function registerRoutes(middlewares) {
-    var middlewareString = middlewares.reduce(function(prev, curr, index, array) {
-      return prev + ', middlewares[' + index + ']';
-    }, '');
-
     var sortedRouteKeys = _.sortBy(_.keys(routes), function(num){ return 1*num; });
     _.each(sortedRouteKeys, function(key) {
       _.each(routes[key], function(route) {
@@ -70,8 +66,7 @@ module.exports = function(app, appConfig, customDebug) {
         debug('registering route: ' + route.verb + ' ' + route.path);
         if (defaultConfig.debugToConsole) console.log('registering route: ' + route.verb + ' ' + route.path);
 
-        // TODO - there has to be a more elegant way to do this than eval, app.get.apply does not work for some reason
-        eval('app[route.verb](route.path' + middlewareString + ')');
+        app[route.verb].apply(app, [route.path].concat(middlewares));
       });
     });
   }
