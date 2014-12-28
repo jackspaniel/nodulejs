@@ -66,9 +66,15 @@ module.exports = function(app, appConfig, customDebug) {
         debug('registering route: ' + route.verb + ' ' + route.path);
         if (defaultConfig.debugToConsole) console.log('registering route: ' + route.verb + ' ' + route.path);
 
-        app[route.verb].apply(app, [route.path].concat(middlewares));
+        app[route.verb].apply(app, [route.path, initRequest].concat(middlewares));
       });
     });
+  }
+
+  // attach new nodule instance to each incoming request
+  function initRequest(req, res, next) {
+    req.module = _.cloneDeep(seedNodules[req.route.path]);
+    next();
   }
 };
 
