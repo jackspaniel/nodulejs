@@ -6,10 +6,10 @@ module.exports = function(app, appConfig, customDebug) {
 
   var debug = customDebug || function(){};
 
-  var seedModules = [], routes = {};
+  var seedNodules = [], routes = {};
 
   var config = {
-    // NOTE: the three route config params below must be specified in the module init method, they cannot be mutated at request-time
+    // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
     // REQUIRED, must be unique within express app, can be an array of multiple routes
     route: null,
 
@@ -24,39 +24,39 @@ module.exports = function(app, appConfig, customDebug) {
 
   var defaultConfig = _.extend(_.cloneDeep(config), appConfig);
 
-  // TODO - look for a cleaner way to do this inside the modules
-  app.initModule = initModule;
+  // TODO - look for a cleaner way to do this inside the nodules
+  app.initNodule = initNodule;
   
   return {
-    seedModules: seedModules,
-    loadModules: loadModules,
+    seedNodules: seedNodules,
+    loadNodules: loadNodules,
     registerRoutes: registerRoutes
   };
   
-  function loadModules(dir, exclude) {
+  function loadNodules(dir, exclude) {
     var root = dir || process.cwd(); // TOOD - should this be process.cwd() + '/app' ?
     glob.sync('./**/*.js', { cwd: root })
       .filter(doesntMatch.apply(this, exclude))
-      .forEach(function(module) { require(path.join(root, module))(app); });
+      .forEach(function(nodule) { require(path.join(root, nodule))(app); });
   }
 
-  function initModule(file, config) {
-    var seedModule = _.extend(_.cloneDeep(defaultConfig), config); // merge config properties onto default config
-    seedModule.path = path.dirname(file);
-    seedModule.name = path.basename(file, '.js');
+  function initNodule(file, config) {
+    var seedNodule = _.extend(_.cloneDeep(defaultConfig), config); // merge config properties onto default config
+    seedNodule.path = path.dirname(file);
+    seedNodule.name = path.basename(file, '.js');
 
-    // modules can have multiple routes
-    var routeArray = (typeof seedModule.route === 'string') || (seedModule.route instanceof RegExp) ? [seedModule.route] : seedModule.route;
+    // nodules can have multiple routes
+    var routeArray = (typeof seedNodule.route === 'string') || (seedNodule.route instanceof RegExp) ? [seedNodule.route] : seedNodule.route;
     _.each(routeArray, function(routePath) {
-      seedModules[routePath] = seedModule; // routes must me unique
+      seedNodules[routePath] = seedNodule; // routes must me unique
       
-      if (!routes[seedModule.routeIndex])
-        routes[seedModule.routeIndex] = [];
-      routes[seedModule.routeIndex].push({path:routePath, verb:seedModule.routeVerb});
+      if (!routes[seedNodule.routeIndex])
+        routes[seedNodule.routeIndex] = [];
+      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb});
     });
   }
 
-  // register routes in order based on module.routeIndex (default 0, can be negative)
+  // register routes in order based on nodule.routeIndex (default 0, can be negative)
   function registerRoutes(middlewares) {
     var middlewareString = middlewares.reduce(function(prev, curr, index, array) {
       return prev + ', middlewares[' + index + ']';
