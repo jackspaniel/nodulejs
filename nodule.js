@@ -1,4 +1,4 @@
-glob = require('glob');
+var glob = require('glob');
 var path = require('path');
 var _ = require('lodash');
 
