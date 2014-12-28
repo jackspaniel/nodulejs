@@ -25,7 +25,8 @@ module.exports = function(app, appConfig, customDebug) {
   var defaultConfig = _.extend(_.cloneDeep(config), appConfig);
 
   // TODO - look for a cleaner way to do this inside the nodules
-  app.initNodule = initNodule;
+  //        change name from module to nodule in all files
+  app.initModule = initModule;
   
   return {
     seedNodules: seedNodules,
@@ -40,7 +41,7 @@ module.exports = function(app, appConfig, customDebug) {
       .forEach(function(nodule) { require(path.join(root, nodule))(app); });
   }
 
-  function initNodule(file, config) {
+  function initModule(file, config) {
     var seedNodule = _.extend(_.cloneDeep(defaultConfig), config); // merge config properties onto default config
     seedNodule.path = path.dirname(file);
     seedNodule.name = path.basename(file, '.js');
