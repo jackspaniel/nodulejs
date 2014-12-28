@@ -1,21 +1,21 @@
 {
   "name": "nodulejs",
-  "version": "1.0.4",
-  "description": "Utility for discovering and initializing node/express modules",
-  "main": "index.js",
+  "version": "1.0.5",
+  "description": "Utility for discovering and initializing node/express 'nodules'",
+  "main": "nodule.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JackSpaniel/nodulejs"
+    "url": "https://github.com/jackspaniel/nodulejs"
   },
-  "author": "Jackspaniel Solutions <jackspaniel99@gmail.com> (https://github.com/JackSpaniel)",
+  "author": "Jackspaniel Solutions <jackspaniel99@gmail.com> (https://github.com/jackspaniel)",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/JackSpaniel/nodulejs/issues"
+    "url": "https://github.com/jackspaniel/nodulejs/issues"
   },
-  "homepage": "https://github.com/JackSpaniel/nodulejs",
+  "homepage": "https://github.com/jackspaniel/nodulejs",
   "dependencies": {
     "glob": "^4.3.2",
     "lodash": "^2.4.1"
