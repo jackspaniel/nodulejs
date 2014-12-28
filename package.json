@@ -1,6 +1,6 @@
 {
   "name": "nodulejs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Utility for discovering and initializing node/express modules",
   "main": "index.js",
   "scripts": {
