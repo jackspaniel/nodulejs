@@ -10,7 +10,7 @@ module.exports = function(app, appConfig, customDebug) {
 
   var config = {
     // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
-    // REQUIRED, must be unique within express app, can be an array of multiple routes
+    // REQUIRED, must be unique within express app, can be String or RegExp or an array of either to handle multiple routes
     route: null,
 
     // get/post/put/delete
