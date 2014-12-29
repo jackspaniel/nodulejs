@@ -2,33 +2,45 @@ var glob = require('glob');
 var path = require('path');
 var _ = require('lodash');
 
-module.exports = function(app, appConfig, customDebug) {
-
-  var debug = customDebug || function(){};
+module.exports = function(app, config) {
 
   var seedNodules = [], routes = {};
 
-  var config = {
-    // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
-    // REQUIRED, must be unique within express app, can be String or RegExp or an array of either to handle multiple routes
-    route: null,
+  var rootConfig = {
+    // set this to true if you have not defined a customDebugger but want to temporality see debugging output
+    debugToConsole: false,
 
-    // get/post/put/delete
-    routeVerb: 'get',
+    // directories to look for nodules in, minus exclude pattern
+    dirs: [
+      { path: process.cwd(), exclude: null }
+    ], 
 
-    // use to load routes before or after main group (use negative #s for to load route first - like z-index)
-    routeIndex: 0,
-    
-    debugToConsole: false
+    noduleDefaults: {
+      // the array of middleware functions which will be called in order for each nodule
+      middlewares: [],
+
+      // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
+      // REQUIRED, must be unique within express app, can be String or RegExp or an array of either to handle multiple routes
+      route: null,
+
+      // get/post/put/delete
+      routeVerb: 'get',
+
+      // use to load routes before or after main group (use negative #s for to load route first - like z-index)
+      routeIndex: 0,
+    },
   };
 
-  var defaultConfig = _.extend(_.cloneDeep(config), appConfig);
+  var defaultConfig = _.merge(_.cloneDeep(rootConfig), config);
+ 
+  var debug = config.customDebug || function(msg) { if (defaultConfig.debugToConsole) console.log(msg); };
   
-  return {
-    loadNodules: loadNodules,
-    registerRoutes: registerRoutes
-  };
+  // find all nodules and init all routes first so they can be sorted based on routeIndex
+  defaultConfig.dirs.forEach(function(dir) { loadNodules(dir.path, dir.exclude); });
   
+  registerRoutes();
+
+  // finds nodules in supplied dir, minus exclude patterns, and invokes initNodule method on them
   function loadNodules(dir, exclude) {
     var root = dir || process.cwd(); // TOOD - should this be process.cwd() + '/app' ?
     glob.sync('./**/*.js', { cwd: root })
@@ -36,9 +48,10 @@ module.exports = function(app, appConfig, customDebug) {
       .forEach(function(file) { initNodule(path.join(root, file)); });
   } 
 
+  // creates seedNodules for each found nodule (seedNodules are cloned at the beginning of each request and added to the req object)
   function initNodule(filepath) {
     var config = require(filepath)(app);
-    var seedNodule = _.extend(_.cloneDeep(defaultConfig), config); // merge config properties onto default config
+    var seedNodule = _.merge(_.cloneDeep(defaultConfig.noduleDefaults), config); // merge config properties onto default config
     seedNodule.path = path.dirname(filepath);
     seedNodule.name = path.basename(filepath, '.js');
 
@@ -49,12 +62,12 @@ module.exports = function(app, appConfig, customDebug) {
       
       if (!routes[seedNodule.routeIndex])
         routes[seedNodule.routeIndex] = [];
-      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb});
+      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:seedNodule.middlewares});
     });
   }
 
-  // register routes in order based on nodule.routeIndex (default 0, can be negative)
-  function registerRoutes(middlewares) {
+  // register express routes (call app.get()/app.post() etc.) in order based on nodule.routeIndex (default = 0, can be negative)
+  function registerRoutes() {
     var sortedRouteKeys = _.sortBy(_.keys(routes), function(num){ return 1*num; });
     _.each(sortedRouteKeys, function(key) {
       _.each(routes[key], function(route) {
@@ -62,12 +75,12 @@ module.exports = function(app, appConfig, customDebug) {
         debug('registering route: ' + route.verb + ' ' + route.path);
         if (defaultConfig.debugToConsole) console.log('registering route: ' + route.verb + ' ' + route.path);
 
-        app[route.verb].apply(app, [route.path, initRequest].concat(middlewares));
+        app[route.verb].apply(app, [route.path, initRequest].concat(route.middlewares));
       });
     });
   }
 
-  // attach new nodule instance to each incoming request
+  // first step in middleware chain - clone applicable seedNodule and attach cloned instance to each incoming request
   function initRequest(req, res, next) {
     req.module = _.cloneDeep(seedNodules[req.route.path]);
     next();
