@@ -10,14 +10,21 @@ module.exports = function(app, config) {
     // set this to true if you have not defined a customDebugger but want to temporality see debugging output
     debugToConsole: false,
 
-    // directories to look for nodules in, minus exclude pattern
+    // directories to look for nodules in, minus exclude pattern - looks in nodules directory by default
     dirs: [
-      { path: process.cwd(), exclude: null }
+      { path: path.join(process.cwd(), 'nodules'), exclude: null }
     ], 
 
     noduleDefaults: {
-      // the array of middleware functions which will be called in order for each nodule
+      // array of (or function which returns array of) middleware functions which will be called in order for each nodule on each express request
       middlewares: [],
+      // - use a function if you want to specify different groups of middleware based on certain nodule properties when app inits
+      // - but be careful because most nodule properties can be mutated at request time - whereas middleware chains are set up at app init time
+      // function example (use 'this' to reference current nodule):
+      // middlewares: function() { 
+      //  if (this.routeVerb === 'post') return formMiddleWareArray;  // predefined middleware array just for post requests
+      //  else return middleWareArray;                                // standard middleware array used for everything else
+      // },
 
       // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
       // REQUIRED, must be unique within express app, can be String or RegExp or an array of either to handle multiple routes
@@ -60,9 +67,9 @@ module.exports = function(app, config) {
     _.each(routeArray, function(routePath) {
       seedNodules[routePath] = seedNodule; // routes must me unique
       
-      if (!routes[seedNodule.routeIndex])
-        routes[seedNodule.routeIndex] = [];
-      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:seedNodule.middlewares});
+      var middlewares = typeof seedNodule.middlewares === 'function' ? seedNodule.middlewares() : seedNodule.middlewares;
+      if (!routes[seedNodule.routeIndex]) routes[seedNodule.routeIndex] = [];
+      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:middlewares});
     });
   }
 
@@ -82,7 +89,7 @@ module.exports = function(app, config) {
 
   // first step in middleware chain - clone applicable seedNodule and attach cloned instance to each incoming request
   function initRequest(req, res, next) {
-    req.module = _.cloneDeep(seedNodules[req.route.path]);
+    req.nodule = _.cloneDeep(seedNodules[req.route.path]);
     next();
   }
 };
