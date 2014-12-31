@@ -3,17 +3,23 @@ var path = require('path');
 var _ = require('lodash');
 
 module.exports = function(app, config) {
-
   var seedNodules = [], routes = {};
 
   var rootConfig = {
-    // set this to true if you have not defined a customDebugger but want to temporality see debugging output
-    debugToConsole: false,
-
     // directories to look for nodules in, minus exclude pattern - looks in nodules directory by default
     dirs: [
       { path: path.join(process.cwd(), 'nodules'), exclude: null }
     ], 
+
+    // default debug function
+    customDebug: function(identifier) { 
+      return function(msg) {
+        if (defaultConfig.debugToConsole) console.log(identifier+': '+msg);
+      };
+    },
+
+    // set this to true if you have not defined a customDebugger but want to temporality see debugging output
+    debugToConsole: false,
 
     noduleDefaults: {
       // array of (or function which returns array of) middleware functions which will be called in order for each nodule on each express request
@@ -39,13 +45,17 @@ module.exports = function(app, config) {
   };
 
   var defaultConfig = _.merge(_.cloneDeep(rootConfig), config);
- 
-  var debug = config.customDebug || function(msg) { if (defaultConfig.debugToConsole) console.log(msg); };
-  
+   
+  var debug = config.customDebug('nodulejs');
+
   // find all nodules and init all routes first so they can be sorted based on routeIndex
   defaultConfig.dirs.forEach(function(dir) { loadNodules(dir.path, dir.exclude); });
   
   registerRoutes();
+
+  return {
+    defaultConfig: defaultConfig
+  };
 
   // finds nodules in supplied dir, minus exclude patterns, and invokes initNodule method on them
   function loadNodules(dir, exclude) {
