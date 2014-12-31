@@ -15,7 +15,7 @@ describe('app', function(){
 
   it('should find .js files but exclude .nu.js files', function(done){
     var spy = sinon.spy();
-    var proxy = once(spy);
+    // var proxy = once(spy);
  //    nodule.loadModules(null, 'nu.js');
     done();
   });

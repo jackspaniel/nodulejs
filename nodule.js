@@ -13,9 +13,10 @@ module.exports = function(app, config) {
 
     // default debug function
     customDebug: function(identifier) { 
-      return function(msg) {
-        if (defaultConfig.debugToConsole) console.log(identifier+': '+msg);
-      };
+      if (defaultConfig.debugToConsole)
+        return function(msg) { console.log(identifier+': '+msg); };
+      else 
+        return function(msg) { };
     },
 
     // set this to true if you have not defined a customDebugger but want to temporality see debugging output
@@ -45,8 +46,7 @@ module.exports = function(app, config) {
   };
 
   var defaultConfig = _.merge(_.cloneDeep(rootConfig), config);
-   
-  var debug = config.customDebug('nodulejs');
+  var debug = defaultConfig.customDebug('nodulejs');
 
   // find all nodules and init all routes first so they can be sorted based on routeIndex
   defaultConfig.dirs.forEach(function(dir) { loadNodules(dir.path, dir.exclude); });
@@ -67,8 +67,8 @@ module.exports = function(app, config) {
 
   // creates seedNodules for each found nodule (seedNodules are cloned at the beginning of each request and added to the req object)
   function initNodule(filepath) {
-    var config = require(filepath)(app);
-    var seedNodule = _.merge(_.cloneDeep(defaultConfig.noduleDefaults), config); // merge config properties onto default config
+    var nodule = require(filepath)(app);
+    var seedNodule = _.merge(_.cloneDeep(defaultConfig.noduleDefaults), nodule); // merge nodule properties onto default nodule
     seedNodule.path = path.dirname(filepath);
     seedNodule.name = path.basename(filepath, '.js');
 
