@@ -25,12 +25,15 @@ module.exports = function(app, config) {
     noduleDefaults: {
       // array of (or function which returns array of) middleware functions which will be called in order for each nodule on each express request
       middlewares: [],
-      // - use a function if you want to specify different groups of middleware based on certain nodule properties when app inits
-      // - but be careful because most nodule properties can be mutated at request time - whereas middleware chains are set up at app init time
-      // function example (use 'this' to reference current nodule):
-      // middlewares: function() { 
-      //  if (this.routeVerb === 'post') return formMiddleWareArray;  // predefined middleware array just for post requests
-      //  else return middleWareArray;                                // standard middleware array used for everything else
+      
+      // Note: you can use a function which returns an array of middlewares
+      //       to assign different groups of middleware based on certain nodule properties when app inits
+      //       but be careful because most nodule properties can be mutated at request time - whereas middleware chains are set up at app init time
+      
+      // function example:
+      // middlewares: function(nodule) { 
+      //  if (nodule.routeVerb === 'post') return formMiddleWareArray;  // predefined middleware array just for post requests
+      //  else return middleWareArray;                                  // standard middleware array used for everything else
       // },
 
       // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
@@ -78,7 +81,10 @@ module.exports = function(app, config) {
     _.each(routeArray, function(routePath) {
       seedNodules[routePath] = seedNodule; // routes must me unique
       
-      var middlewares = typeof seedNodule.middlewares === 'function' ? seedNodule.middlewares() : seedNodule.middlewares;
+      
+      // middlewares can be an array of functions, or function that returns an array of functions
+      var middlewares = typeof seedNodule.middlewares === 'function' ? seedNodule.middlewares(seedNodule) : seedNodule.middlewares;
+      
       if (!routes[seedNodule.routeIndex]) routes[seedNodule.routeIndex] = [];
       routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:middlewares});
     });
