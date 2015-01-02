@@ -11,7 +11,7 @@ module.exports = function(app, config) {
       { path: path.join(process.cwd(), 'nodules'), exclude: null }
     ], 
 
-    // default debug function
+    // default debug function if none is supplied
     customDebug: function(identifier) { 
       if (defaultConfig.debugToConsole)
         return function(msg) { console.log(identifier+': '+msg); };
@@ -34,6 +34,7 @@ module.exports = function(app, config) {
       // },
 
       // NOTE: the three route config params below must be specified in the nodule init method, they cannot be mutated at request-time
+      
       // REQUIRED, must be unique within express app, can be String or RegExp or an array of either to handle multiple routes
       route: null,
 
