@@ -1,58 +1,63 @@
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
-
 # nodulejs
-====
+
+[![NPM Version][npm-image]][https://github.com/jackspaniel/nodulejs]
+[![NPM Downloads][downloads-image]][https://github.com/jackspaniel/nodulejs]
 
 nodulejs is a lightweight utility based on node/express whose sole purpose is to discover and initialize node/express "nodules", then attach them to each express request as __req.nodule__.
 
-### What is a nodule? 
-A nodule is a self-discovering, self-initializing component that would be analagous to a JSP or PHP page in those worlds. Except it has an advanatage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - spring). This system allows a much more scalable architecture on large sites--as there are no files that grow to enormouse sizes, and files can be re-organized, placed into subfolfders, etc. with zero impact.
-
-### What does a nodule do? 
-Not a whole lot out of the box. I split nodulejs off from it's current sole implementation, [yukon api framework](https://github.com/jackspaniel/yukon), 
-and trimmed it down to the bare essentials. The idea/hope is that it can potentially be a building block for other frameworks.
-
-A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about its 4 core properties:
-1. route: (REQUIRED) one more express routes - can be a string, RegExp, or array of either
-2. routeVerb: (OPTIONAL, default=get) get, post, put, del
-3. routeIndex: (OPTIONAL, default=0) used to load routes before or after others, can be negative, like z-index
-4. middlewares: (OPTIONAL but your app isn't going to do much w/o them) an array of middleware functions to call for each nodule. This array can be globally static for all modules, semi-global based on rules about the nodules themselves, or specified one-off within each nodule.
-
-### Ok, what problem does this solve?
-__Note:__ to see the concepts described in this section actually fleshed out, see the [yukon api framework](https://github.com/jackspaniel/yukon).
-
-From a __feature-development POV__, we wanted to give developers the flexibility of [component-based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) as much as possible, but still keep system-wide control over the middleware chain. On a small site with a small development team the latter might not be an issue. But on a large site with devs scattered all over the globe, some kind of middleware sandbox was a necessity. Our feature devs spend 95% of their effort on the client side. From our POV they shouldn't have to learn the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
-
-From a __framework-development POV__, we knew we would constantly need to be able to add default properties to each component, throughout the lifecycle of the project, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config then specifying the property only in the new nodules which need it. 
-
-We also knew we'd need to add slices of business logic globally or semi-globally at any point in the request chain. By keeping control of the middleware chain we are able to do this with ease. 
-
-This diagram, from the fully-fleshed out [yukon](https://github.com/jackspaniel/yukon) might make the concept a little more clear:
-
-!(http://i.imgur.com/eXExJi8.gif)
-
-
 ## Installation
-
-  node:
-
 ```
 $ npm install nodulejs
 ```
 
 ## Usage
-
 ```
 require('nodulejs')(app, config); 
 ```
 
 __app__ = express instance
-__config__ = any custom properties you want to add or defaults you want to override, see the [demoApp](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js)
+<br>__config__ = any custom properties you want to add or defaults you want to override, see the [demoApp](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js)
+
+There are 3 global config properties:
+
+1. __dirs__: (OPTIONAL, default='/nodules') *path(s) to look for your nodules, exclude property can be full or partal match* <br>__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js'] }, { path: '/lib', exclude: ['.test.js'] }]
+2. __debugToConsole__: (OPTIONAL, default=false) *set to true to see nodulejs debug output in the console* 
+3. __customDebug__: (OPTIONAL) *custom debug function* <br>__example:__ function(identifier) { return function(msg){... your debug function here ...} }
+
+## What is a nodule? 
+A nodule is a self-discovering, self-initializing component that would be analagous to a JSP or PHP page in those worlds. Except it has an advanatage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - spring). This system allows a much more scalable architecture on large sites--as there are no files that grow to enormouse sizes, and files can be re-organized, placed into subfolfders, etc. with zero impact.
+
+
+### What does a nodule do? 
+Not a whole lot out of the box. I split nodulejs off from it's current sole implementation, [yukon API framework](https://github.com/jackspaniel/yukon), 
+and trimmed it down to the bare essentials. The idea/hope is that it can potentially be a building block for other frameworks.
+
+A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about its 4 core properties:
+
+1. __route__: (REQUIRED) *one more express routes - can be a string, RegExp, or array of either*
+2. __routeVerb__: (OPTIONAL, default=get) *get, post, put, del*
+3. __routeIndex__: (OPTIONAL, default=0) *used to load routes before or after others, can be negative, like z-index*
+4. __middlewares__:  (OPTIONAL but your app isn't going to do much w/o them) *an array of middleware functions to call for each nodule. This array can be globally static for all modules, semi-global based on rules about the nodules themselves, or specified one-off within each nodule.*
+
+### Ok, what problem does this solve?
+__Note:__ to see the concepts described in this section actually fleshed out, see the [yukon API framework](https://github.com/jackspaniel/yukon).
+
+From a __feature-development point of view__, we wanted to give developers the flexibility of [component-based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) as much as possible, but still keep system-wide control over the middleware chain. On a small site with a small development team the latter might not be an issue. But on a large site with devs scattered all over the globe, some kind of middleware sandbox was a necessity. 
+
+Our feature devs spend 90% of their effort on the client side. Node is mostly just a pass-through for them to the API(s), with some business logic applied. Ideally they should have to learn the as little as possible of the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
+
+From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config then specifying the property only in the new nodules which need it. 
+
+We also knew we'd need to add slices of business logic globally or semi-globally at any point in the request chain. By keeping control of the middleware chain we are able to do this with ease. 
+
+This diagram, from the fully-fleshed out [yukon API framework](https://github.com/jackspaniel/yukon) might make the concept a little more clear:
+
+![](http://i.imgur.com/eXExJi8.gif)
 
 ## Examples
 
-### Example nodule (from the [demoApp](https://github.com/jackspaniel/nodulejs/blob/master/demo/homePage.js))
+#### Example nodule 
+([submitForm.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/json/submitForm.js) from the demoApp)
 ```
 module.exports = function(app) {
   return {
@@ -78,7 +83,8 @@ module.exports = function(app) {
 };
 ```
 
-### Example nodule #2 ([404 error nodule](https://github.com/jackspaniel/nodulejs/blob/master/demo/404.js) - shows routeIndex and one-off middleware)
+#### Example nodule #2 
+([404 error nodule](https://github.com/jackspaniel/nodulejs/blob/master/demo/404.js) - shows routeIndex and one-off middleware)
 ```
 module.exports = function(app) {
   return {
@@ -102,7 +108,8 @@ module.exports = function(app) {
 };
 ```
 
-### Example of how to specify custom config and semi-global middleware (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
+#### Example of how to specify custom config and semi-global middleware 
+(from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 var config =  {
 
@@ -145,7 +152,8 @@ var config =  {
 };
 ```
 
-### Example of semi-global middleware function which calls nodule-level function (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
+#### Example of semi-global middleware function which calls nodule-level function 
+(from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 function doBusinessLogic(req, res, next) {
   debug('doBusinessLogic middleware executed for: ' + req.nodule.name);
