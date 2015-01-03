@@ -54,7 +54,7 @@ This diagram, from the fully-fleshed out [yukon API framework](https://github.co
 
 ![](http://i.imgur.com/eXExJi8.gif)
 
-## Run Node Tests
+### To Run Node Tests
 ```
 $ npm install
 $ make test 
@@ -62,12 +62,32 @@ $ make test
 
 ## Examples
 
-#### Example nodule 
+#### Basic page
+([homePage.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/submitForm.js) from the demoApp)
+```
+// basic page example (serving multiple routes)
+module.exports = function(app) {
+  return {
+    // routes can be a string, RegExp or array of either (to match multiple routes)
+    route: ['/', '/home', '/special'],
+  
+    doNoduleBusinessLogic: function(req, res) {
+      this.debug('doNoduleBusinessLogic called');
+      
+      // example of specifying a nodule property at request time
+      this.templateName = (req.path.indexOf('special') > -1) 
+                          ? 'altHomePage.jade' 
+                          : 'homePage.jade';
+    }
+  };
+};
+```
+
+#### Form submit 
 ([submitForm.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/json/submitForm.js) from the demoApp)
 ```
 module.exports = function(app) {
   return {
-    // routes can be a string, RegExp or array of either (to match multiple routes)
     route : '/json/submitForm',  
 
     routeVerb: 'post', // default = get       
@@ -89,7 +109,7 @@ module.exports = function(app) {
 };
 ```
 
-#### Example nodule #2 
+#### Catch-all page
 ([404 error nodule](https://github.com/jackspaniel/nodulejs/blob/master/demo/404.js) - shows routeIndex and one-off middleware)
 ```
 module.exports = function(app) {
@@ -112,7 +132,7 @@ module.exports = function(app) {
 };
 ```
 
-#### Example of how to specify custom config and semi-global middleware 
+#### Custom config with several nodule-dependent middleware chains, and extra nodule properties
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 var config =  {
@@ -156,7 +176,7 @@ var config =  {
 };
 ```
 
-#### Example of semi-global middleware function which calls nodule-level function 
+#### Middleware which calls nodule-level business-logic function
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 function doBusinessLogic(req, res, next) {
@@ -173,7 +193,7 @@ function doBusinessLogic(req, res, next) {
 }
 ```
 
-#### Example of multiple middleware functions which make an asynchronous call to the DB 
+#### Multiple middleware functions which make an asynchronous call to the DB (goes with Form submit example above)
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 ...

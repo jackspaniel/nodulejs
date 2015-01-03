@@ -1,4 +1,5 @@
 // simplistic example application for nodulejs
+// see yukon for fully fleshed-out implementation (https://github.com/jackspaniel/yukon)
 
 var path = require('path');
 var _ = require('lodash');
