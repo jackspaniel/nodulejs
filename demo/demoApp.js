@@ -13,7 +13,7 @@ module.exports = function(app, appConfig) {
   nodulejs(app, mergedConfig); 
 
   debug = (appConfig.customDebug) 
-          ? appConfig.customDebug('demoApp')
+          ? appConfig.customDebug('nodulejs->demoApp')
           : function(msg) { if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg); };
 };
 
