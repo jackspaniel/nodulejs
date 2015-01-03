@@ -32,7 +32,7 @@ A nodule is a self-discovering, self-initializing component that would be analag
 Not a whole lot out of the box. I split nodulejs off from it's current sole implementation, [yukon API framework](https://github.com/jackspaniel/yukon), 
 and trimmed it down to the bare essentials. The idea/hope is that it can potentially be a building block for other frameworks.
 
-A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about its 4 core properties:
+A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about 4 core properties:
 
 1. __route__: <span style="color:grey">(REQUIRED)</span> *one or more express routes - can be a string, RegExp, or array of either*
 2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> *get, post, put, del*
