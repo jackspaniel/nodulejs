@@ -54,6 +54,12 @@ This diagram, from the fully-fleshed out [yukon API framework](https://github.co
 
 ![](http://i.imgur.com/eXExJi8.gif)
 
+## Run Node Tests
+```
+$ npm install
+$ make test 
+```
+
 ## Examples
 
 #### Example nodule 
