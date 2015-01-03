@@ -171,6 +171,7 @@ function doBusinessLogic(req, res, next) {
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
 ```
 ...
+    middlewares: function(nodule) {
       if (nodule.routeVerb === 'post') 
         return [doPreForm, doPostForm, sendJsonResponse];
 ...
