@@ -96,8 +96,6 @@ module.exports = function(app) {
     routeIndex: 1000,
   
     // example of using custom non-standard middleware array 
-    // can also be a function(nodule) which returns an array of middleware functions (see demoApp.js for example)
-    // NOTE: if using a function, it is executed at app init time, not request time
     middlewares: [
       function(req, res, next) {
         req.nodule.debug('404 error middleware called!');
