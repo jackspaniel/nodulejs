@@ -20,11 +20,10 @@ __app__ = express instance
 
 There are 3 global config properties:
 
-1. __dirs__: <span style="color:grey">(OPTIONAL, default='/nodules')</span> *path(s) to look for your nodules, exclude property can be full or partal match* <br>__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js'] }, { path: '/lib', exclude: ['.test.js'] }]
+1. __dirs__: <span style="color:grey">(OPTIONAL, default='/nodules')</span> *path(s) to look for your nodules, exclude property can be full or partal match* <br>__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js', '/shared/'] }, { path: '/lib/nodules', exclude: ['.test.js'] }]
 2. __debugToConsole__: <span style="color:grey">(OPTIONAL, default=false)</span> *set to true to see nodulejs debug output in the console* 
 3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> *custom debug function* <br>__example:__ function(identifier) { return function(msg){... your debug function here ...} }
 
-<br>&nbsp;
 ## What is a nodule? 
 A nodule is a self-discovering, self-initializing component that would be analagous to a JSP or PHP page in those worlds. Except it has an advanatage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into subfolfders, etc. with zero impact.
 
@@ -32,7 +31,7 @@ A nodule is a self-discovering, self-initializing component that would be analag
 ### What does a nodule do? 
 Not a whole lot out of the box. See the [yukon API framework](https://github.com/jackspaniel/yukon) for a fully-fleshed out implementation. I split nodulejs off from yukon with the idea that it can potentially be a building block for other frameworks.
 
-A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app init time:
+A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app-init time:
 
 1. __route__: <span style="color:grey">(REQUIRED)</span> *one or more express routes - can be a string, RegExp, or array of either*
 2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> *get, post, put, del*
@@ -58,7 +57,6 @@ $ npm install
 $ make test 
 ```
 
-<br>&nbsp;
 ## Examples
 
 #### Basic page
