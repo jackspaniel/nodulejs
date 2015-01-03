@@ -34,7 +34,7 @@ and trimmed it down to the bare essentials. The idea/hope is that it can potenti
 
 A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about its 4 core properties:
 
-1. __route__: (REQUIRED) *one more express routes - can be a string, RegExp, or array of either*
+1. __route__: <span style="color:#666666">(REQUIRED)</span> *one more express routes - can be a string, RegExp, or array of either*
 2. __routeVerb__: (OPTIONAL, default=get) *get, post, put, del*
 3. __routeIndex__: (OPTIONAL, default=0) *used to load routes before or after others, can be negative, like z-index*
 4. __middlewares__:  (OPTIONAL but your app isn't going to do much w/o them) *an array of middleware functions to call for each nodule. This array can be globally static for all modules, semi-global based on rules about the nodules themselves, or specified one-off within each nodule.*
