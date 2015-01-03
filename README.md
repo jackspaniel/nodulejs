@@ -1,7 +1,7 @@
 # nodulejs
 
-[![NPM Version][https://img.shields.io/npm/v/nodulejs.svg?style=flat]][https://github.com/jackspaniel/nodulejs]
-[![NPM Downloads][https://img.shields.io/npm/dm/nodulejs.svg?style=flat]][https://github.com/jackspaniel/nodulejs]
+[![NPM Version]https://img.shields.io/npm/v/nodulejs.svg?style=flat][https://github.com/jackspaniel/nodulejs]
+[![NPM Downloads]https://img.shields.io/npm/dm/nodulejs.svg?style=flat][https://github.com/jackspaniel/nodulejs]
 
 nodulejs is a lightweight utility based on node/express whose sole purpose is to discover and initialize node/express "nodules", then attach them to each express request as __req.nodule__.
 
