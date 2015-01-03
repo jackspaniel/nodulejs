@@ -167,6 +167,47 @@ function doBusinessLogic(req, res, next) {
 }
 ```
 
+#### Example of multiple middleware functions which make an asynchronous call to the DB 
+(from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
+```
+...
+      if (nodule.routeVerb === 'post') 
+        return [doPreForm, doPostForm, sendJsonResponse];
+...
+
+
+function doPreForm(req, res, next) {
+  debug('doPreForm middleware executed for: ' + req.nodule.name);
+
+  // call nodule-level pre-DB business logic
+  req.nodule.doPreFormBusinessLogic(req, res);
+
+  // simulating async call to DB/cache/API/etc
+  makeDbCall({
+    params: req.nodule.dbParams, 
+    callback: function(err, response) { 
+      req.nodule.responseData = response;
+      next(); 
+    }
+  });
+}
+
+// DB simulator, see /json/formSubmit.js
+function makeDbCall(call) {
+  var response = (call.params.param1) ? 'valid data, param1='+call.params.param1 : 'missing param1, please resubmit';
+  call.callback(null, {dbMsg:response});
+}
+
+function doPostForm(req, res, next) {
+  debug('doPostForm middleware executed for: ' + req.nodule.name);
+
+  // call nodule-level post-DB business logic
+  req.nodule.doPostFormBusinessLogic(req, res);
+
+  next();
+}
+```
+
 [npm-image]: https://img.shields.io/npm/v/nodulejs.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/nodulejs
 [downloads-image]: https://img.shields.io/npm/dm/nodulejs.svg?style=flat
