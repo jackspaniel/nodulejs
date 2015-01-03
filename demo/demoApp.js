@@ -1,22 +1,35 @@
 // simplistic example application for nodulejs
 
-var nodulejs = require('nodulejs');
+var path = require('path');
+var _ = require('lodash');
+var nodulejs = require('../nodule');
+var debug;
 
-module.exports = function(app) {  
-  // nodulejs finds and loads nodules based on config below
-  // then registers routes with express based on nodule route, routeIndex and routeVerb
-  nodulejs(app, config); 
+module.exports = function(app, appConfig) {  
+  // 1) finds and loads nodules based on config below
+  // 2) registers routes with express based on nodule properties: route, routeIndex, routeVerb and middlewares
+  var mergedConfig = _.merge(config, appConfig || {});
+  nodulejs(app, mergedConfig); 
+
+  debug = function(msg) {
+    if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg);
+  };
 };
+
+// since we're not sure where this demo app is being invoked
+var myDir = __filename.substr(0,__filename.length-11);
 
 // override nodulejs defaults
 var config =  {
 
   dirs: [
-    { path: '/demo', exclude: ['demoApp.js', '.unit.js'] }, // exclude can be full or partal match
+    // path example 
+    { path: myDir, exclude: ['demoApp.js', '.test.js'] }, // exclude can be full or partal match
+    
     // multiple dirs ok
   ],
 
-  // also can use customDebugger property with functin of format: function(identifier) { return function(msg){...} }
+  // or use customDebugger property with function of format: function(identifier) { return function(msg){...} }
   debugToConsole: true, 
   
   // config used to override nodule defaults at the app-level
@@ -27,29 +40,98 @@ var config =  {
     
     // example of using a function to return middlewares based on nodule properties
     middlewares: function(nodule) {
-      if (nodule.route.indexOf('/json/') > -1) 
+      var strRoute = nodule.route.toString();
+
+      if (nodule.routeVerb === 'post') 
+        return [doPreForm, doPostForm, sendJsonResponse];
+      else if (strRoute.indexOf('/json') === 0) 
         return [doBusinessLogic, sendJsonResponse];
       else  
         return [doBusinessLogic, sendHtmlResponse];
     },
   
-    // example of adding custom property
-    templateName: null,
+    // below are examples of adding custom properties outside of nodulejs
+    templateName: 'default.jade',
 
+    templateDir: null,
+
+    // example of adding nodule-level business logic
+    doNoduleBusinessLogic: function(req, res) { },
   },
 };
 
+
+////////////////////////////////////////////////////////////////////
+/// middlwares examples for simple HTML and JSON request/response //
+////////////////////////////////////////////////////////////////////
 function doBusinessLogic(req, res, next) {
-  console.log('middleware doBusinessLogic executed for: ' + req.nodule.name);
+  debug('doBusinessLogic middleware executed for: ' + req.nodule.name);
+
+  // app-level business logic can go here
+
+  // call nodule-level business logic
+  req.nodule.doNoduleBusinessLogic(req, res);
+
+  // app-level business logic can also go here
+
   next();
 }
 
 function sendJsonResponse(req, res, next) {
-  console.log('middleware sendJsonResponse executed for:'  + req.nodule.name);
-  res.send({msg:'middleware finished for nodule: ' + req.nodule.name});
+  debug('sendJsonResponse middleware executed for: '  + req.nodule.name);
+  
+  // app-level presentation logic, or stuff like reporting can go here
+
+  res.send({
+    msg: req.nodule.customMsg || 'all middleware finished for nodule: ' + req.nodule.name,
+    id: req.nodule.customId || req.params.id, 
+    data: req.nodule.responseData
+  });
 }
 
 function sendHtmlResponse(req, res, next) {
-  console.log('middleware sendHtmlResponse executed for:' + req.nodule.name);
-  res.render(req.nodule.templateName, {msg:'middleware finished for nodule: ' + req.nodule.name});
+  debug('sendHtmlResponse middleware executed for: ' + req.nodule.name + ', template:' + req.nodule.templateName);
+
+  // app-level presentation logic, or stuff like reporting can go here
+
+  req.nodule.templatePath = path.join((req.nodule.templateDir || req.nodule.path), req.nodule.templateName);
+
+  res.render(req.nodule.templatePath, {msg:'all middleware finished for nodule: ' + req.nodule.name});
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+/// middleware examples for typical form request/response with simualted going to DB //
+/// 
+/// see ./json/submitForm.js for implementation                                       //
+///////////////////////////////////////////////////////////////////////////////////////
+function doPreForm(req, res, next) {
+  debug('doPreForm middleware executed for: ' + req.nodule.name);
+
+  // call nodule-level pre-form business logic
+  req.nodule.doPreFormBusinessLogic(req, res);
+
+  // simulating async call to DB/cache/API/etc
+  makeDbCall({
+    params: req.nodule.dbParams, 
+    callback: function(err, response) { 
+      req.nodule.responseData = response;
+      next(); 
+    }
+  });
+}
+
+// DB simulator, see /json/formSubmit.js
+function makeDbCall(call) {
+  var response = (call.params.param1) ? 'valid data, param1='+call.params.param1 : 'missing param1, please resubmit';
+  call.callback(null, {dbMsg:response});
+}
+
+function doPostForm(req, res, next) {
+  debug('doPostForm middleware executed for: ' + req.nodule.name);
+
+  // call nodule-level post-form business logic
+  req.nodule.doPostFormBusinessLogic(req, res);
+
+  next();
+}
+

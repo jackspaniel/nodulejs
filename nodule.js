@@ -51,6 +51,7 @@ module.exports = function(app, config) {
 
   var defaultConfig = _.merge(_.cloneDeep(rootConfig), config);
   var debug = defaultConfig.customDebug('nodulejs');
+  debug('debug initialized');
 
   // find all nodules and init all routes first so they can be sorted based on routeIndex
   defaultConfig.dirs.forEach(function(dir) { loadNodules(dir.path, dir.exclude); });
@@ -63,6 +64,7 @@ module.exports = function(app, config) {
 
   // finds nodules in supplied dir, minus exclude patterns, and invokes initNodule method on them
   function loadNodules(dir, exclude) {
+    debug('loadNodules called - dir: ' + dir + ', exclude: ' + exclude);
     var root = dir || process.cwd(); // TOOD - should this be process.cwd() + '/app' ?
     glob.sync('./**/*.js', { cwd: root })
       .filter(doesntMatch.apply(this, exclude))
@@ -75,13 +77,13 @@ module.exports = function(app, config) {
     var seedNodule = _.merge(_.cloneDeep(defaultConfig.noduleDefaults), nodule); // merge nodule properties onto default nodule
     seedNodule.path = path.dirname(filepath);
     seedNodule.name = path.basename(filepath, '.js');
+    seedNodule.debug = defaultConfig.customDebug(seedNodule.name);
 
     // nodules can have multiple routes
     var routeArray = (typeof seedNodule.route === 'string') || (seedNodule.route instanceof RegExp) ? [seedNodule.route] : seedNodule.route;
     _.each(routeArray, function(routePath) {
       seedNodules[routePath] = seedNodule; // routes must me unique
-      
-      
+        
       // middlewares can be an array of functions, or function that returns an array of functions
       var middlewares = typeof seedNodule.middlewares === 'function' ? seedNodule.middlewares(seedNodule) : seedNodule.middlewares;
       
@@ -95,10 +97,7 @@ module.exports = function(app, config) {
     var sortedRouteKeys = _.sortBy(_.keys(routes), function(num){ return 1*num; });
     _.each(sortedRouteKeys, function(key) {
       _.each(routes[key], function(route) {
-
         debug('registering route: ' + route.verb + ' ' + route.path);
-        if (defaultConfig.debugToConsole) console.log('registering route: ' + route.verb + ' ' + route.path);
-
         app[route.verb].apply(app, [route.path, initRequest].concat(route.middlewares));
       });
     });
