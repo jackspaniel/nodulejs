@@ -8,7 +8,7 @@ module.exports = function(app) {
       this.debug('doNoduleBusinessLogic called');
       
       // example of specifying a nodule property at request time
-      this.templateName = (req.path.indexOf('special') > -1) ? 'specialHomePage.jade' : 'homePage.jade';
+      this.templateName = (req.path.indexOf('special') > -1) ? 'altHomePage.jade' : 'homePage.jade';
     }
   };
 };

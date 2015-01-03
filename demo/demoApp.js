@@ -11,9 +11,9 @@ module.exports = function(app, appConfig) {
   var mergedConfig = _.merge(config, appConfig || {});
   nodulejs(app, mergedConfig); 
 
-  debug = function(msg) {
-    if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg);
-  };
+  debug = (appConfig.customDebug) 
+          ? appConfig.customDebug('demoApp')
+          : function(msg) { if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg); };
 };
 
 // since we're not sure where this demo app is being invoked

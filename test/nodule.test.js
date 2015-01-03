@@ -35,7 +35,7 @@ describe('demoApp/nodulejs test suite', function(){
       request(app)
         .get('/special')
         .end(function(err, res){
-          assert(res.text.indexOf('<h1>SPECIAL HOME PAGE') > -1, 'res.text='+res.text);
+          assert(res.text.indexOf('<h1>ALTERNATE HOME PAGE') > -1, 'res.text='+res.text);
           done();
         });
     });
