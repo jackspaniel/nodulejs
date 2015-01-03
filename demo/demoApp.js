@@ -23,17 +23,17 @@ var myDir = __filename.substr(0,__filename.length-11);
 var config =  {
 
   dirs: [
-    // path example 
+    // path(s) to look for your nodules 
     { path: myDir, exclude: ['demoApp.js', '.test.js'] }, // exclude can be full or partal match
     
     // multiple dirs ok
   ],
 
-  // or use customDebugger property with function of format: function(identifier) { return function(msg){...} }
+  // set to true or or use customDebug: function(identifier) { return function(msg){... your debug function here ...} }
   debugToConsole: true, 
   
   // config used to override nodule defaults at the app-level
-  // NOTE: this will be overridden by any properties specified at the nodule-level (nodule->app->nodulejs framework)
+  // NOTE: these properties will be overridden by any properties specified at the nodule-level (nodule properties->app properties->nodulejs framework default properties)
   noduleDefaults: {
     // example of using a static array of middlewares
     // middlewares: [doBusinessLogic, sendJsonResponse],
@@ -55,7 +55,7 @@ var config =  {
 
     templateDir: null,
 
-    // example of adding nodule-level business logic
+    // example of adding nodule-level business logic function
     doNoduleBusinessLogic: function(req, res) { },
   },
 };
