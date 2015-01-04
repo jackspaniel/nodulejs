@@ -74,7 +74,7 @@ module.exports = function(app, config) {
   // creates seedNodules for each found nodule (seedNodules are cloned at the beginning of each request and added to the req object)
   function initNodule(filepath) {
     var nodule = require(filepath)(app);
-    var seedNodule = _.merge(_.cloneDeep(defaultConfig.noduleDefaults), nodule); // merge nodule properties onto default nodule
+    var seedNodule = _.assign(_.cloneDeep(defaultConfig.noduleDefaults), nodule); // merge nodule properties onto default nodule
     seedNodule.path = path.dirname(filepath);
     seedNodule.name = path.basename(filepath, '.js');
     seedNodule.debug = defaultConfig.customDebug(seedNodule.name);
