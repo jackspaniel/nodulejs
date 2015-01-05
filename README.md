@@ -5,6 +5,8 @@
 
 nodulejs is a lightweight utility based on node/express whose sole purpose is to discover and initialize node/express "nodules", then attach them to each express request as __req.nodule__.
 
+For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon)).
+
 ## Installation
 ```
 $ npm install nodulejs
@@ -25,13 +27,12 @@ There are 3 global config properties:
 3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> *custom debug function* <br>__example:__ function(identifier) { return function(msg){... your debug function here ...} }
 
 ## What is a nodule? 
-A nodule is a self-discovering, self-initializing component that would be analagous to a JSP or PHP page in those worlds. Except it has an advanatage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into subfolfders, etc. with zero impact.
-
+A nodule is a self-discovering, self-initializing component that would be analagous to a JSP or PHP page in those worlds. Except it has an advanatage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into subfolfders, etc. with zero impact.
 
 ### What does a nodule do? 
 Not a whole lot out of the box. See the [yukon API framework](https://github.com/jackspaniel/yukon) for a fully-fleshed out implementation. I split nodulejs off from yukon with the idea that it can potentially be a building block for other frameworks.
 
-A nodule can have any properties you want to add, which will be propagated throughout the middleware chaing as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app-init time:
+A nodule can have any properties you want to add, which will be propagated throughout the middleware chain as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app-init time:
 
 1. __route__: <span style="color:grey">(REQUIRED)</span> *one or more express routes - can be a string, RegExp, or array of either*
 2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> *get, post, put, del*
@@ -60,7 +61,7 @@ $ make test
 ## Examples
 
 #### Basic page
-([homePage.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/submitForm.js) from the demoApp)
+([homePage.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/homePage.js) from the demoApp)
 ```
 module.exports = function(app) {
   return {
@@ -201,6 +202,9 @@ function makeDbCall(call) {
   call.callback(null, {dbMsg:response});
 }
 ```
+
+# License
+### MIT
 
 [npm-image]: https://img.shields.io/npm/v/nodulejs.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/nodulejs
