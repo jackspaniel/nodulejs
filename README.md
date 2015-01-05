@@ -44,7 +44,7 @@ From a __feature-development point of view__, we wanted to give developers the f
 
 Our feature devs spend 80-90% of their effort in jade templates or on the client side. For them, node components are often just a pass-through to the API(s), with some business logic applied to the request on the way in, and api data on the way out. Ideally they should have to learn the as little as possible of the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
 
-From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config then specifying the property only in the nodules that need the new property.
+From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config, then specifying the property only in the nodules that need the new property.
 
 We also knew we'd need to add slices of business logic globally or semi-globally at any point in the request chain. By keeping control of the middleware chain we are able to do this with ease. 
 
