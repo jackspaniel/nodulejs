@@ -1,6 +1,6 @@
 {
   "name": "nodulejs",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "description": "Utility for discovering and initializing node/express 'nodules'",
   "main": "nodule.js",
   "scripts": {
