@@ -61,7 +61,7 @@ $ make test
 
 #### Basic page
 ([homePage.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/submitForm.js) from the demoApp)
-```
+```js
 module.exports = function(app) {
   return {
     route: ['/', '/home', '/special'],
@@ -77,7 +77,7 @@ module.exports = function(app) {
 
 #### Form submit 
 ([submitForm.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/json/submitForm.js) from the demoApp)
-```
+```js
 module.exports = function(app) {
   return {
     route : '/json/submitForm',  
@@ -98,7 +98,7 @@ module.exports = function(app) {
 
 #### Catch-all page
 ([404 error nodule](https://github.com/jackspaniel/nodulejs/blob/master/demo/404.js) - shows routeIndex and one-off middleware)
-```
+```js
 module.exports = function(app) {
   return {
     route: '*',
@@ -117,7 +117,7 @@ module.exports = function(app) {
 
 #### Demo App config
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js) - shows defining several nodule-dependent middleware chains at app init time, and adding extra nodule properties)
-```
+```js
 var config =  {
   
   dirs: [
@@ -151,7 +151,7 @@ var config =  {
 
 #### Middleware which calls nodule-level business-logic function
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js))
-```
+```js
 function doBusinessLogic(req, res, next) {
   debug('doBusinessLogic middleware executed for: ' + req.nodule.name);
 
@@ -167,7 +167,7 @@ function doBusinessLogic(req, res, next) {
 
 #### Multiple middleware functions which make an asynchronous call to the DB
 (from [demoApp.js](https://github.com/jackspaniel/nodulejs/blob/master/demo/demoApp.js) - goes with Form submit example above)
-```
+```js
 ...
     middlewares: function(nodule) {
       if (nodule.routeVerb === 'post') 
