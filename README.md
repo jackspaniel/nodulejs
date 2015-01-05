@@ -5,7 +5,7 @@
 
 nodulejs is a lightweight utility based on node/express whose sole purpose is to discover and initialize node/express "nodules", then attach them to each express request as __req.nodule__.
 
-For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon)).
+For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon).
 
 ## Installation
 ```
