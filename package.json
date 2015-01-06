@@ -1,7 +1,7 @@
 {
   "name": "nodulejs",
   "version": "1.1.19",
-  "description": "Scalable self-discovering express web components",
+  "description": "Scalable self-discovering web components",
   "main": "nodule.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
