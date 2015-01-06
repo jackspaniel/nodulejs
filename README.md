@@ -5,7 +5,7 @@
 
 nodulejs is a lightweight utility based on node/express whose sole purpose is to discover and initialize node/express "nodules", then attach them to each express request as __req.nodule__.
 
-For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon)).
+For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon).
 
 ## Installation
 ```
@@ -22,9 +22,9 @@ __app__ = express instance
 
 There are 3 global config properties:
 
-1. __dirs__: <span style="color:grey">(OPTIONAL, default='/nodules')</span> *path(s) to look for your nodules, exclude property can be full or partal match* <br>__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js', '/shared/'] }, { path: '/lib/nodules', exclude: ['.test.js'] }]
-2. __debugToConsole__: <span style="color:grey">(OPTIONAL, default=false)</span> *set to true to see nodulejs debug output in the console* 
-3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> *custom debug function* <br>__example:__ function(identifier) { return function(msg){... your debug function here ...} }
+1. __dirs__: <span style="color:grey">(OPTIONAL, default='/nodules')</span> path(s) to look for your nodules, exclude property can be full or partal match <br>*__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js', '/shared/'] }, { path: '/lib/nodules', exclude: ['.test.js'] }]*
+2. __debugToConsole__: <span style="color:grey">(OPTIONAL, default=false)</span> set to true to see nodulejs debug output in the console
+3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> custom debug function <br>*__example:__ function(identifier) { return function(msg){... your debug function here ...} }*
 
 ## What is a nodule? 
 A nodule is a self-discovering, self-initializing component that would be analogous to a JSP or PHP page in those worlds. Except it has an advantage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into sub-folders, etc. with zero impact.
@@ -34,17 +34,17 @@ Not a whole lot out of the box. See the [yukon API framework](https://github.com
 
 A nodule can have any properties you want to add, which will be propagated throughout the middleware chain as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app-init time:
 
-1. __route__: <span style="color:grey">(REQUIRED)</span> *one or more express routes - can be a string, RegExp, or array of either*
-2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> *get, post, put, del*
-3. __routeIndex__: <span style="color:grey">(OPTIONAL, default=0)</span> *use to load routes before or after others, can be negative, like z-index*
-4. __middlewares__:  <span style="color:grey">(OPTIONAL but your app isn't going to do much w/o them)</span> *an array of middleware functions to call for each nodule, or function(nodule) which returns said array. This array can be globally static for all modules, semi-global based on rules (by using the function option), or specified one-off within each nodule.*
+1. __route__: <span style="color:grey">(REQUIRED)</span> one or more express routes - can be a string, RegExp, or array of either
+2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> get, post, put, del
+3. __routeIndex__: <span style="color:grey">(OPTIONAL, default=0)</span> use to load routes before or after others, can be negative, like z-index
+4. __middlewares__:  <span style="color:grey">(OPTIONAL but your app isn't going to do much w/o them)</span> an array of middleware functions to call for each nodule, or function(nodule) which returns said array. This array can be globally static for all modules, semi-global based on rules (by using the function option), or specified one-off within each nodule.
 
 ### Ok, what problem does this solve?
 From a __feature-development point of view__, we wanted to give developers the flexibility of [component-based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) as much as possible, but still keep system-wide control over the middleware chain. On a small site with a small development team the latter might not be an issue. But on a large site with devs scattered all over the globe, some kind of middleware sandbox was a necessity. 
 
 Our feature devs spend 80-90% of their effort in jade templates or on the client side. For them, node components are often just a pass-through to the API(s), with some business logic applied to the request on the way in, and api data on the way out. Ideally they should have to learn the as little as possible of the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
 
-From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config then specifying the property only in the nodules that need the new property.
+From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config, then specifying the property only in the nodules that need the new property.
 
 We also knew we'd need to add slices of business logic globally or semi-globally at any point in the request chain. By keeping control of the middleware chain we are able to do this with ease. 
 
