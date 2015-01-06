@@ -1,7 +1,7 @@
 {
   "name": "nodulejs",
   "version": "1.1.19",
-  "description": "Utility for discovering and initializing node/express components called 'nodules'",
+  "description": "Scalable self-discovering express web components",
   "main": "nodule.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,7 @@
   "keywords": [
     "nodule",
     "yukon",
+    "express",
     "self-discovering",
     "framework",
     "component-based",
