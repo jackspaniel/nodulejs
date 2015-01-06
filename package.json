@@ -1,11 +1,19 @@
 {
   "name": "nodulejs",
   "version": "1.1.19",
-  "description": "Utility for discovering and initializing node/express 'nodules'",
+  "description": "Utility for discovering and initializing node/express components called 'nodules'",
   "main": "nodule.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "nodule",
+    "yukon",
+    "self-discovering",
+    "framework",
+    "component-based",
+    "component-based framework"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jackspaniel/nodulejs"
