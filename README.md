@@ -37,7 +37,7 @@ A nodule can have any properties you want to add, which will be propagated throu
 1. __route__: <span style="color:grey">(REQUIRED)</span> one or more express routes - can be a string, RegExp, or array of either
 2. __routeVerb__: <span style="color:grey">(OPTIONAL, default=get)</span> get, post, put, del
 3. __routeIndex__: <span style="color:grey">(OPTIONAL, default=0)</span> use to load routes before or after others, can be negative, like z-index
-4. __middlewares__:  <span style="color:grey">(OPTIONAL but your app isn't going to do much w/o them)</span> an array of middleware functions to call for each nodule, or function(nodule) which returns said array. This array can be globally static for all modules, semi-global based on rules (by using the function option), or specified one-off within each nodule.
+4. __middlewares__:  <span style="color:grey">(OPTIONAL but your app isn't going to do much w/o them)</span> an array of middleware functions to call for each nodule, or *__function(nodule){...}__* which returns said array. This array can be globally static for all nodules, semi-global based on rules (by using the function option), or specified one-off within each nodule.
 
 ### Ok, what problem does this solve?
 From a __feature-development point of view__, we wanted to give developers the flexibility of [component-based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) as much as possible, but still keep system-wide control over the middleware chain. On a small site with a small development team the latter might not be an issue. But on a large site with devs scattered all over the globe, some kind of middleware sandbox was a necessity. 
