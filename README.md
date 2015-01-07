@@ -54,6 +54,7 @@ This diagram, from the fully-fleshed out [yukon API framework](https://github.co
 
 ### To Run Node Tests
 ```
+Download nodulejs - https://github.com/jackspaniel/nodulejs/archive/master.zip
 $ npm install
 $ make test 
 ```
