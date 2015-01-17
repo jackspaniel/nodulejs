@@ -3,7 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
 
-nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
+nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
 For a fully fleshed-out implementation of nodulejs, see the [yukon component framework](https://github.com/jackspaniel/yukon).
 
@@ -24,7 +24,7 @@ There are 3 global config properties:
 
 1. __dirs__: <span style="color:grey">(OPTIONAL, default='/nodules')</span> path(s) to look for your nodules, exclude property can be full or partal match <br>*__example:__ [{ path: '/app', exclude: ['demoApp.js', '.test.js', '/shared/'] }, { path: '/lib/nodules', exclude: ['.test.js'] }]*
 2. __debugToConsole__: <span style="color:grey">(OPTIONAL, default=false)</span> set to true to see nodulejs debug output in the console
-3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> custom debug function <br>*__example:__ function(identifier) { return function(msg){... your debug function here ...} }*
+3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> custom debug function <br>*__example:__ function(identifier) { return function(msg){ myDebug(msg) } }*
 
 ## What is a nodule? 
 A nodule is a self-discovering, self-initializing component that would be analogous to a JSP or PHP page in those worlds. Except it has an advantage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into sub-folders, etc. with zero impact.
@@ -54,6 +54,7 @@ This diagram, from the fully-fleshed out [yukon component framework](https://git
 
 ### To Run Node Tests
 ```
+Download nodulejs - https://github.com/jackspaniel/nodulejs/archive/master.zip
 $ npm install
 $ make test 
 ```
