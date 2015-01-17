@@ -4,7 +4,7 @@
   "description": "Scalable self-discovering web components",
   "main": "nodule.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "keywords": [
     "nodule",
@@ -33,8 +33,10 @@
   "devDependencies": {
     "body-parser": "^1.10.1",
     "express": "^4.10.6",
+    "istanbul": "^0.3.5",
     "jade": "^1.8.2",
     "mocha": "^2.1.0",
+    "mocha-lcov-reporter": "0.0.1",
     "supertest": "^0.15.0"
   }
 }

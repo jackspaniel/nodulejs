@@ -10,7 +10,7 @@ module.exports = function(app) {
     doPreFormBusinessLogic: function(req, res) {
       this.debug('doPreFormBusinessLogic called');
       // process form parameters etc
-      this.dbParams = {param1: req.body ? req.body.param1 : null}; // in real life don't forget to sanitize query params!
+      this.dbParams = {param1: req.body.param1}; // in real life don't forget to sanitize query params!
     },
 
     doPostFormBusinessLogic: function(req, res) {

@@ -2,6 +2,8 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
 
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
@@ -211,3 +213,8 @@ function makeDbCall(call) {
 [npm-url]: https://www.npmjs.com/package/nodulejs
 [downloads-image]: https://img.shields.io/npm/dm/nodulejs.svg?style=flat
 [downloads-url]: https://npmjs.org/package/ndoulejs
+[travis-image]: https://travis-ci.org/jackspaniel/nodulejs.svg
+[travis-url]: https://travis-ci.org/jackspaniel/nodulejs?branch=master
+[coveralls-image]: https://coveralls.io/repos/jackspaniel/nodulejs/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/r/jackspaniel/nodulejs?branch=master
+
