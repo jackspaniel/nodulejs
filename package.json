@@ -1,6 +1,6 @@
 {
   "name": "nodulejs",
-  "version": "1.1.25",
+  "version": "1.2.0",
   "description": "Scalable self-discovering web components",
   "main": "nodule.js",
   "scripts": {
