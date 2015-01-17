@@ -5,7 +5,7 @@
 
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
-For a fully fleshed-out implementation of nodulejs, see the [yukon API framework](https://github.com/jackspaniel/yukon).
+For a fully fleshed-out implementation of nodulejs, see the [yukon component framework](https://github.com/jackspaniel/yukon).
 
 ## Installation
 ```
@@ -30,7 +30,7 @@ There are 3 global config properties:
 A nodule is a self-discovering, self-initializing component that would be analogous to a JSP or PHP page in those worlds. Except it has an advantage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into sub-folders, etc. with zero impact.
 
 ### What does a nodule do? 
-Not a whole lot out of the box. See the [yukon API framework](https://github.com/jackspaniel/yukon) for a fully-fleshed out implementation. I split nodulejs off from yukon with the idea that it can potentially be a building block for other frameworks.
+Not a whole lot out of the box. See the [yukon component framework](https://github.com/jackspaniel/yukon) for a fully-fleshed out implementation. I split nodulejs off from yukon with the idea that it can potentially be a building block for other frameworks.
 
 A nodule can have any properties you want to add, which will be propagated throughout the middleware chain as as req.nodule. But nodulejs only cares about 4 core properties, which are needed to register express middleware at app-init time:
 
@@ -42,13 +42,13 @@ A nodule can have any properties you want to add, which will be propagated throu
 ### Ok, what problem does this solve?
 From a __feature-development point of view__, we wanted to give developers the flexibility of [component-based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) as much as possible, but still keep system-wide control over the middleware chain. On a small site with a small development team the latter might not be an issue. But on a large site with devs scattered all over the globe, some kind of middleware sandbox was a necessity. 
 
-Our feature devs spend 80-90% of their effort in jade templates or on the client side. For them, node components are often just a pass-through to the API(s), with some business logic applied to the request on the way in, and api data on the way out. Ideally they should have to learn the as little as possible of the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
+Our feature devs spend 80-90% of their effort in jade templates or on the client side. For them, node components are often just a pass-through to the API(s), with some business logic applied to the request on the way in, and API data on the way out. Ideally they should have to learn the as little as possible of the vagaries/plumbing/whatever-your-favorite-metaphor-for-framework-stuff of node. Creating a new node component should be as easy for them as creating a new JSP - but again, without the framework losing control of the middleware chain.
 
 From a __framework-development point of view__, we knew that as requirements evolved, we would constantly need to add default properties to each component, while hopefully causing as little disruption as possible to existing components. This is easily accomplished by adding a default property to the base config, then specifying the property only in the nodules that need the new property.
 
 We also knew we'd need to add slices of business logic globally or semi-globally at any point in the request chain. By keeping control of the middleware chain we are able to do this with ease. 
 
-This diagram, from the fully-fleshed out [yukon API framework](https://github.com/jackspaniel/yukon) might make the concept a little more clear:
+This diagram, from the fully-fleshed out [yukon component framework](https://github.com/jackspaniel/yukon) might make the concept a little more clear:
 
 ![](http://i.imgur.com/eXExJi8.gif)
 
