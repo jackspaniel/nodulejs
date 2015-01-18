@@ -3,7 +3,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jackspaniel/nodulejs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
-[![build status][travis-image]][travis-url]
+[![Build Status](https://travis-ci.org/jackspaniel/nodulejs.svg)](https://travis-ci.org/jackspaniel/nodulejs)
 [![Test coverage][coveralls-image]][coveralls-url]
 
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
