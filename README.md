@@ -6,6 +6,8 @@
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
+[![Build Status](https://travis-ci.org/jackspaniel/nodulejs.svg)](https://travis-ci.org/jackspaniel/nodulejs)
+
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
 For a fully fleshed-out implementation of nodulejs, see the [yukon component framework](https://github.com/jackspaniel/yukon).
