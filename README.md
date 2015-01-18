@@ -5,6 +5,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
+[![Coverage Status](https://coveralls.io/repos/jackspaniel/nodulejs/badge.svg?branch=master)](https://coveralls.io/r/jackspaniel/nodulejs?branch=master)
 
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
