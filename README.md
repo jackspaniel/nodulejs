@@ -217,5 +217,5 @@ function makeDbCall(call) {
 [downloads-url]: https://npmjs.org/package/nodulejs
 [travis-image]: https://travis-ci.org/jackspaniel/nodulejs.svg
 [travis-url]: https://travis-ci.org/jackspaniel/nodulejs?branch=master
-[coveralls-image]: https://coveralls.io/repos/jackspaniel/nodulejs/badge.svg?branch=master
+[coveralls-image]: https://coveralls.io/repos/jackspaniel/nodulejs/badge.svg?branch=master&cache-bust=true
 [coveralls-url]: https://coveralls.io/r/jackspaniel/nodulejs?branch=master
