@@ -3,7 +3,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jackspaniel/nodulejs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
-[![build status][travis-image]][travis-url]
+[![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
@@ -213,8 +213,8 @@ function makeDbCall(call) {
 [npm-image]: https://img.shields.io/npm/v/nodulejs.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/nodulejs
 [downloads-image]: https://img.shields.io/npm/dm/nodulejs.svg?style=flat
-[downloads-url]: https://npmjs.org/package/ndoulejs
+[downloads-url]: https://npmjs.org/package/nodulejs
 [travis-image]: https://travis-ci.org/jackspaniel/nodulejs.svg
-[travis-url]: https://travis-ci.org/jackspaniel/nodulejs
+[travis-url]: https://travis-ci.org/jackspaniel/nodulejs?branch=master
 [coveralls-image]: https://coveralls.io/repos/jackspaniel/nodulejs/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/r/jackspaniel/nodulejs?branch=master
