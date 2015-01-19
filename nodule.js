@@ -49,7 +49,7 @@ module.exports = function(app, config) {
     },
   };
 
-  var defaultConfig = _.merge(_.cloneDeep(rootConfig), config);
+  var defaultConfig = _.merge({}, rootConfig, config);
   var debug = defaultConfig.customDebug('nodulejs');
   debug('debug initialized');
 

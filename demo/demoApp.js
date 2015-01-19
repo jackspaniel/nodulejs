@@ -9,7 +9,7 @@ var debug;
 module.exports = function(app, appConfig) {  
   // 1) finds and loads nodules based on config below
   // 2) registers routes with express based on nodule properties: route, routeIndex, routeVerb and middlewares
-  var mergedConfig = _.merge(config, appConfig || {});
+  var mergedConfig = _.merge({}, config, appConfig || {});
   nodulejs(app, mergedConfig); 
 
   debug = (appConfig.customDebug) 
