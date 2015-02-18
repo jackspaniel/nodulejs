@@ -86,7 +86,8 @@ module.exports = function(app, config) {
     _.each(routeArray, function(routePath) {
 
       // throw error if duplicate route found in index
-      var routeLookup = seedNodule.routeVerb.toLowerCase() + '_' + routePath.toLowerCase();
+      var routeStr = routePath.toString().toLowerCase();
+      var routeLookup = seedNodule.routeVerb.toLowerCase() + '_' + routeStr;
       if (seedNodules[routeLookup]) {
         console.error('Duplicate Route Matching: ' + seedNodules[routeLookup].path + ' // ' + seedNodules[routeLookup].name);
       }
@@ -115,7 +116,7 @@ module.exports = function(app, config) {
 
   // first step in middleware chain - clone applicable seedNodule and attach cloned instance to each incoming request
   function initRequest(req, res, next) {
-    req.nodule = _.cloneDeep(seedNodules[req.method.toLowerCase() + '_' + req.route.path.toLowerCase()]);
+    req.nodule = _.cloneDeep(seedNodules[req.method.toLowerCase() + '_' + req.route.path.toString().toLowerCase()]);
     next();
   }
 };
