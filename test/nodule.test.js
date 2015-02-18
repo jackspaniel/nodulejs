@@ -52,6 +52,17 @@ describe('demoApp/nodulejs test suite', function(){
     });
   });
 
+ describe('Testing nodule with post but otherwise same route as anotherr nodule :id wildcard - POST /json/getData/flur', function(){
+    it('should respond to generic :id match with JSON object, id=flur', function(done){
+      request(app)
+        .post('/json/getData/flur')
+        .end(function(err, res){
+          assert.equal(res.body.data.testId, 'flur');
+          done();
+        });
+    });
+  });
+
   describe('Testing RegExp route with wildcard, and negative routeIndex - GET /json/getData/specialId2', function(){
     it('should respond to specific :id match with special JSON object', function(done){
       request(app)

@@ -15,6 +15,7 @@ module.exports = function(app, config) {
 
     // default debug function if none is supplied
     customDebug: function(identifier) { 
+      /* istanbul ignore if */
       if (defaultConfig.debugToConsole)
         return function(msg) { console.log(identifier+': '+msg); };
       else 
