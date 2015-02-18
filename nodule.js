@@ -88,7 +88,7 @@ module.exports = function(app, config) {
       // throw error if duplicate route found in index
       var routeLookup = seedNodule.routeVerb.toLowerCase() + '_' + routePath.toLowerCase();
       if (seedNodules[routeLookup]) {
-        throw new Error('Duplicate Route Matching: ' + seedNodules[routeLookup].path + ' // ' + seedNodules[routeLookup].name);
+        console.error('Duplicate Route Matching: ' + seedNodules[routeLookup].path + ' // ' + seedNodules[routeLookup].name);
       }
 
       // push nodule onto stack, routes must be unique
