@@ -1,3 +1,5 @@
+'use strict';
+
 var glob = require('glob');
 var path = require('path');
 var _ = require('lodash');
@@ -69,7 +71,7 @@ module.exports = function(app, config) {
     glob.sync('./**/*.js', { cwd: root })
       .filter(doesntMatch.apply(this, exclude))
       .forEach(function(file) { initNodule(path.join(root, file)); });
-  } 
+  }
 
   // creates seedNodules for each found nodule (seedNodules are cloned at the beginning of each request and added to the req object)
   function initNodule(filepath) {
@@ -82,13 +84,21 @@ module.exports = function(app, config) {
     // nodules can have multiple routes
     var routeArray = (typeof seedNodule.route === 'string') || (seedNodule.route instanceof RegExp) ? [seedNodule.route] : seedNodule.route;
     _.each(routeArray, function(routePath) {
-      seedNodules[routePath] = seedNodule; // routes must me unique
-        
+
+      // throw error if duplicate route found in index
+      var routeLookup = seedNodule.routeVerb.toLowerCase() + '_' + routePath.toLowerCase();
+      if (seedNodules[routeLookup]) {
+        console.error('Duplicate Route Matching: ' + seedNodules[routeLookup].path + ' // ' + seedNodules[routeLookup].name);
+      }
+
+      // push nodule onto stack, routes must be unique
+      seedNodules[routeLookup] = seedNodule; 
+
       // middlewares can be an array of functions, or function that returns an array of functions
       var middlewares = typeof seedNodule.middlewares === 'function' ? seedNodule.middlewares(seedNodule) : seedNodule.middlewares;
-      
+    
       if (!routes[seedNodule.routeIndex]) routes[seedNodule.routeIndex] = [];
-      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:middlewares});
+      routes[seedNodule.routeIndex].push({path:routePath, verb:seedNodule.routeVerb, middlewares:middlewares, routeLookup: routeLookup});
     });
   }
 
@@ -105,7 +115,7 @@ module.exports = function(app, config) {
 
   // first step in middleware chain - clone applicable seedNodule and attach cloned instance to each incoming request
   function initRequest(req, res, next) {
-    req.nodule = _.cloneDeep(seedNodules[req.route.path]);
+    req.nodule = _.cloneDeep(seedNodules[req.method.toLowerCase() + '_' + req.route.path.toLowerCase()]);
     next();
   }
 };
