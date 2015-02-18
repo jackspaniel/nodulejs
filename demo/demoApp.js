@@ -14,7 +14,7 @@ module.exports = function(app, appConfig) {
 
   debug = (appConfig.customDebug) 
           ? appConfig.customDebug('nodulejs->demoApp')
-          : function(msg) { if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg); };
+          : function(msg) { /* istanbul ignore if */ if (mergedConfig.debugToConsole) console.log('nodule demoApp: ' + msg); };
 };
 
 // since we're not sure where this demo app is being invoked
@@ -112,13 +112,18 @@ function doPreForm(req, res, next) {
   req.nodule.doPreFormBusinessLogic(req, res);
 
   // simulating async call to DB/cache/API/etc
-  makeDbCall({
-    params: req.nodule.dbParams, 
-    callback: function(err, response) { 
-      req.nodule.responseData = response;
-      next(); 
-    }
-  });
+  if (req.nodule.dbParams) {
+    makeDbCall({
+      params: req.nodule.dbParams, 
+      callback: function(err, response) { 
+        req.nodule.responseData = response;
+        next(); 
+      }
+    });
+  }
+  else {
+    next();
+  }
 }
 
 // DB simulator, see /json/formSubmit.js
