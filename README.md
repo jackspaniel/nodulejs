@@ -80,11 +80,16 @@ This diagram, from the fully-fleshed out [yukon component framework](https://git
 
 ![](http://i.imgur.com/eXExJi8.gif)
 
-### To Run Node Tests
+### To run node tests
 ```
 Download nodulejs - https://github.com/jackspaniel/nodulejs/archive/master.zip
 $ npm install
 $ make test 
+```
+
+### To see Demo App in action outside of test mode
+```
+node app
 ```
 
 ## Examples
