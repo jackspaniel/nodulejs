@@ -10,6 +10,31 @@ nodulejs is a lightweight utility based on node/express, whose sole purpose is t
 
 For a fully fleshed-out implementation of nodulejs, see the [yukon component framework](https://github.com/jackspaniel/yukon).
 
+A really simple yukon component looks like this:
+```js
+module.exports = function(app) {
+  return {
+  
+    route: '/home', 
+    
+    templateName: 'homePage.jade',
+
+    apiCalls: [
+      {path: '/api/cms/home'},
+      {path: '/api/data/homedata'}
+    ],
+    
+    preProcessor: function(req, res) {
+      // pre-API(s) business logic goes here
+    },
+    
+    postProcessor: function(req, res) {
+      // post-API(s) business logic goes here
+    }
+  };
+};
+```
+
 ## Installation
 ```
 $ npm install nodulejs
