@@ -87,7 +87,7 @@ $ npm install
 $ make test 
 ```
 
-### To see Demo App in action outside of test mode
+### To see the Demo App in action outside of test mode
 ```
 node app
 ```
