@@ -19,6 +19,7 @@ module.exports = function(app) {
     
     templateName: 'homePage.jade',
 
+    // called in parallel
     apiCalls: [
       {path: '/api/cms/home'},
       {path: '/api/data/homedata'}
@@ -55,7 +56,7 @@ There are 3 global config properties:
 3. __customDebug__: <span style="color:grey">(OPTIONAL)</span> custom debug function <br>*__example:__ function(identifier) { return function(msg){ myDebug(msg) } }*
 
 ## What is a nodule? 
-A nodule is a self-discovering, self-initializing component that would be analogous to a JSP or PHP page in those worlds. Except it has an advantage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting urls. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into sub-folders, etc. with zero impact.
+A nodule is a self-discovering, self-initializing component that would be analogous to a JSP or PHP page in those worlds. Except it has an advantage in that its route is declared, not tied by default to the file name or file structure. So you are free to re-organize nodules without upsetting the url structure of your site. But more importantly, because nodules are self-discovering, there are no onerous config files to maintain (IE - Spring). This system allows a much more scalable architecture on large sites--as there are no config or other shared files which grow to enormous sizes as the site grows, and nodules can be re-organized, placed into sub-folders, etc. with zero impact.
 
 ### What does a nodule do? 
 Not a whole lot out of the box. See the [yukon component framework](https://github.com/jackspaniel/yukon) for a fully-fleshed out implementation. I split nodulejs off from yukon with the idea that it can potentially be a building block for other frameworks.
