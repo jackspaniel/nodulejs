@@ -48,9 +48,9 @@ module.exports = function(app) {
 // in app.js or some sub component:
 require('./app/myModule.js');
 ```
-But notice that in the nodulejs example, it's not necessary to require the component myModule.js from another file. The nodule is discovered automatically by the nodulesjs framework - based on configurable file search patterns. This makes it much less onerous to refactor code by renaming files, moving files, creating subdirectories, etc. There is no path to maintain off in another file. 
+But notice that in the nodulejs example, it is not necessary to require the component myModule.js from another file. The nodule is discovered automatically by the nodulesjs framework - based on configurable file search patterns. This makes it less onerous to reorganize code. Renaming files, moving files, creating subdirectories are all much easier because there is no path to maintain off in another file. 
 
-Conversely a nodule's route is not tied to it's filename or path. We feel this is the best of both worlds as files can be renamed and moved w/o impacting the back end or front end code. Developers are more likely to rename and reorganize files - which results in tigher, more self-explanatory code. Each nodule is roughly 1-1 with a web route (although it can serve multiple routes). Our experience is that in large distributed teams, this separation of features into bite-size files aids development considerably.
+Conversely a nodule's route is not tied to its filename or path. We feel this is the best of both worlds as files can be renamed and moved w/o impacting the back end or front end code. Developers are more likely to rename and reorganize files - which results in tigher, more self-explanatory code. Each nodule is roughly 1-1 with a web route (although it can serve multiple routes). Our experience is that in large distributed teams, this separation of features into bite-size files aids development considerably.
 
 ## Installation
 ```
