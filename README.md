@@ -16,11 +16,11 @@ module.exports = function(app) {
     middlewares: [getProfile, getMoreData],
  };
      
-  var getProfile = function(req, res) {
+  var getProfile = function(req, res, next) {
     // make call to an API or database
   };
     
-  var getMoreData = function(req, res) {
+  var getMoreData = function(req, res, next) {
     // make another async DB/API call which is dependent on getProfile
     // do business logic on returned data
     // render template
@@ -34,11 +34,11 @@ Which has the exact same behavior as this:
 module.exports = function(app) {
   app.get('/home', getProfile, getMoreData);
      
-  var getProfile = function(req, res) {
+  var getProfile = function(req, res, next) {
     // make call to an API or database
   };
     
-  var getMoreData = function(req, res) {
+  var getMoreData = function(req, res, next) {
     // make another async DB/API call which is dependent on getProfile
     // do business logic on returned data
     // render template
