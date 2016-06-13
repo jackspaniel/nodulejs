@@ -6,6 +6,8 @@
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
+__NOTE:__ This is still very much an active repo. We just haven't needed to change anything in a while. Any feature requests, issues or inquiries will be answered promptly.
+
 nodulejs is a lightweight utility based on node/express, whose sole purpose is to discover and initialize web components (standard AMD Javascript objects) called "nodules". Nodules are tied to one or more express routes, and attached to each incoming express request as __req.nodule__.
 
 A nodule looks like this:
