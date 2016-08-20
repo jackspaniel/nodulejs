@@ -27,12 +27,12 @@
   },
   "homepage": "https://github.com/jackspaniel/nodulejs",
   "dependencies": {
-    "glob": "^4.3.2",
-    "lodash": "^3.10.0"
+    "glob": "7.0.5",
+    "lodash": "4.15.0"
   },
   "devDependencies": {
-    "body-parser": "^1.10.1",
-    "express": "^4.10.6",
+    "body-parser": "1.15.0",
+    "express": "4.13.4",
     "istanbul": "^0.3.5",
     "jade": "^1.8.2",
     "mocha": "^2.1.0",
