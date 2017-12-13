@@ -49,6 +49,9 @@ module.exports = function(app, config) {
 
       // use to load routes before or after main group (use negative #s for to load route first - like z-index)
       routeIndex: 0,
+
+      // optional prefix to be added to all routes
+      routePrefix: '',
     },
   };
 
@@ -87,7 +90,7 @@ module.exports = function(app, config) {
     _.each(routeArray, function(routePath) {
 
       // throw error if duplicate route found in index
-      var routeStr = routePath.toString().toLowerCase();
+      var routeStr = defaultConfig.noduleDefaults.routePrefix.toString().toLowerCase() + routePath.toString().toLowerCase();
       var routeLookup = seedNodule.routeVerb.toLowerCase() + '_' + routeStr;
       if (seedNodules[routeLookup]) {
         console.error('Duplicate Route Matching: ' + seedNodules[routeLookup].path + ' // ' + seedNodules[routeLookup].name);
