@@ -24,7 +24,7 @@ describe('demoApp/nodulejs test suite', function(){
       request(app)
         .get('/')
         .end(function(err, res){
-          assert(res.text.indexOf('<h1>HOME PAGE') > -1, 'res.text='+res.text);
+          assert(res.text.indexOf('<h1>HOME PAGE22') > -1, 'res.text='+res.text);
           done();
         });
     });
